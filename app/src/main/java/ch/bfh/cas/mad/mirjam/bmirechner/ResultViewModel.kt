@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 class ResultViewModel (
     private val bmiInterpretationsRepository: BmiInterpretationsRepository
 ): ViewModel() {
-    fun getBmiInterpretations(): List<String> {
+    suspend fun getBmiInterpretations(): List<String> {
         return bmiInterpretationsRepository.all()
     }
 }

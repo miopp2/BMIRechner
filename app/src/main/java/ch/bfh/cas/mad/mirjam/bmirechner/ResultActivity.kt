@@ -7,9 +7,11 @@ import android.widget.Button
 import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 
 class ResultActivity : AppCompatActivity() {
     private lateinit var viewModel: ResultViewModel
@@ -32,21 +34,13 @@ class ResultActivity : AppCompatActivity() {
 
         textViewResult.text = getString(R.string.bmi_format, bmi)
         val recyclerViewInterpretation = findViewById<RecyclerView>(R.id.recyclerview_bmi_interpretation)
-//        val interpretations = resources.getStringArray(R.array.interpretation_bmi)
         recyclerViewInterpretation.layoutManager = LinearLayoutManager(this)
 
-        Thread {
+        lifecycleScope.launch{
             val interpretations = viewModel.getBmiInterpretations()
-            recyclerViewInterpretation.post {
-                val adapter = BmiInterpretationAdapter(data = interpretations)
-                recyclerViewInterpretation.adapter = adapter
-            }
-        }.start()
-//        val interpretations = viewModel.getBmiInterpretations()
-//        val adapter = BmiInterpretationAdapter(data = interpretations)
-
-//        recyclerViewInterpretation.layoutManager = GridLayoutManager(this, 3)
-//        recyclerViewInterpretation.adapter = adapter
+            val adapter = BmiInterpretationAdapter(data = interpretations)
+            recyclerViewInterpretation.adapter = adapter
+        }
 
         val returnButton = findViewById<Button>(R.id.return_button)
 
@@ -54,8 +48,6 @@ class ResultActivity : AppCompatActivity() {
             val intent = Intent(
                 this, MainActivity::class.java
             )
-//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//            startActivity(intent)
             finish()
         }
     }
