@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">BMIRechner</string>
+    <string name="button_calculate_text">Berechnen</string>
+    <string name="hint_weight">Gewicht in kg</string>
+    <string name="hint_height">Grösse in cm</string>
+    <string name="button_back">Zurück</string>
+    <string name="text_view_text"> </string>
+    <string name="return_text">Zurück</string>
+    <string name="error_input">Eingabe ist kein Integer, bitte wiederholen</string>
+    <string name="bmi_format">Dein BMI beträgt %.2f</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="profile">Profile</string>
+</resources>
