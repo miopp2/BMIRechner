@@ -19,7 +19,8 @@ class ResultActivity : AppCompatActivity() {
 
         val viewModelProvider = ViewModelProvider(
             this,
-            ResultViewModelFactory(BmiInterpretationsRepository(applicationContext))
+            ResultViewModelFactory(
+                BmiInterpretationsRepository(applicationContext))
         )
 
         viewModel = viewModelProvider.get(ResultViewModel::class.java)
@@ -31,11 +32,21 @@ class ResultActivity : AppCompatActivity() {
 
         textViewResult.text = getString(R.string.bmi_format, bmi)
         val recyclerViewInterpretation = findViewById<RecyclerView>(R.id.recyclerview_bmi_interpretation)
-        val interpretations = resources.getStringArray(R.array.interpretation_bmi)
-        val adapter = BmiInterpretationAdapter(data = interpretations.toList())
+//        val interpretations = resources.getStringArray(R.array.interpretation_bmi)
         recyclerViewInterpretation.layoutManager = LinearLayoutManager(this)
+
+        Thread {
+            val interpretations = viewModel.getBmiInterpretations()
+            recyclerViewInterpretation.post {
+                val adapter = BmiInterpretationAdapter(data = interpretations)
+                recyclerViewInterpretation.adapter = adapter
+            }
+        }.start()
+//        val interpretations = viewModel.getBmiInterpretations()
+//        val adapter = BmiInterpretationAdapter(data = interpretations)
+
 //        recyclerViewInterpretation.layoutManager = GridLayoutManager(this, 3)
-        recyclerViewInterpretation.adapter = adapter
+//        recyclerViewInterpretation.adapter = adapter
 
         val returnButton = findViewById<Button>(R.id.return_button)
 
